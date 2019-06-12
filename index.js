@@ -1,12 +1,16 @@
 let http = require('http');
 let fs = require('fs');
 let path = require('path');
+
+/* note, mysql must be installed (npm install mysql) and mysql server running on localhost or elsewhere*/
 let { API, database } = require('./module/api/api.js');
 
 database.create();
 
 process.env.node_env = "localhost";
-const ip = process.env.node_env === 'production' ? '45.79.79.114' : '127.0.0.1';
+
+// replace xx.xx.xx.xxx with your own remote IP address or localhost (127.0.0.1)
+const ip = 'xx.xx.xx.xxx';
 const port = process.env.node_env === 'production' ? 80 : 3000;
 
 http.createServer(function(request, response) {
