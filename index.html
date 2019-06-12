@@ -142,17 +142,18 @@
 <div id = "body">
     <div>
         <b>API Tests</b><br/>
-        <input type = "text" id = "un" style = "width: 90px"/><input type = "text" id = "email_address"/>
+        <input type = "text" id = "un" placeholder = "username" style = "width: 90px"/>
+        <input type = "text" id = "email_address" placeholder = "email address"/>
             <input id = "user_button" type = "button"
                    onclick = "let payload = { 'email_address': window.email_address.value, 'username': window.un.value, 'password': 'password'}; User.create( payload )" value = "register user" /><br/>
         <input type = "button" onclick = "User.update({id: 1, password_sha3: 'newpass123A'})" value = "update user properties" /><br/>
         <input type = "button" onclick = "User.get({id:1})" value = "get user where user.id = 1" /><br/>
         <input type = "button" onclick = "User.get({id:100000000})" value = "get user where user.id = 100000000" /><br/>
-        <input type = "button" onclick = "User.verify({user:'felix',verify_id:'12345'})" value = "verify user (same as click on verify link in email)" /><br/>
+        <input type = "button" onclick = "User.verify({user:'felix', verify_id:'12345'})" value = "verify user (same as click on verify link in email)" /><br/>
         <input type = "button" onclick = "User.authenticate({token:'token_test_12345'})" value = "authenticate (check if token exists in session table)" /><br/>
-        <input type = "button" onclick = "User.login({username:'felix',password:'password123'})" value = "log in as user felix / password (check session)" /><br/>
+        <input type = "button" onclick = "User.login({username:'felix', password:'password123'})" value = "log in as user felix / password (check session)" /><br/>
         <input type = "button" onclick = "User.tweet({user:'felix',message:'hello there, this is my tweet.'})" value = "tweet as authenticated user" /><br/>
-        <input type = "button" onclick = "User.like({id:{user:1,tweet:1}})" value = "like tweet id=1 by user id=1" /><br/>
+        <input type = "button" onclick = "User.like({id:{user:1, tweet:1}})" value = "like tweet id=1 by user id=1" /><br/>
     </div>
 </div>
 <div id = "footer"></div>
