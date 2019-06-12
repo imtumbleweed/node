@@ -1,0 +1,160 @@
+<html>
+<head>
+    <title>Node API Endpoint Server</title>
+    <link rel = "stylesheet" type = "text/css" href = "style/lavacode.css">
+    <script type = "module">
+
+        /* Front-end API */
+
+        class User {
+            constructor() { }
+        }
+
+        // Create payload -- redundant everywhere, now in neat make() function
+        let make = function(payload) {
+            return { method: 'post',
+                     headers: { 'Accept': 'application/json' },
+                     body: JSON.stringify(payload) };
+        }
+
+        /* Create user in database
+           payload = {
+           username   : "felix",
+           email      : "felix@thecat.net",
+           first_name : "Felix",
+           last_name  : "Felicis",
+           password   : "Password123",
+           type       : "normal" } */
+        User.create = function(payload) {
+            fetch("/api/user/register", make(payload))
+            .then(promise => promise.json())
+            .then(json => {
+                if (json.success)
+                    console.log(`User <${payload.username}> <${payload.email_address}> was successfully registered.`);
+                else
+                    console.log(`User with email address <${payload.email_address}> already exists!`);
+            });
+        }
+
+        /* Read (get) user from database:
+           payload = {
+           id: 1,
+           token: "ABC123xyz" } */
+        User.get = function(payload) {
+            fetch("/api/user/get", make(payload)).then(promise => promise.json()).then(json => {
+                console.log(json);
+            });
+        }
+
+        /* Update user table in database
+           payload = {
+           id: 1,
+           token: "ABC123xyz" } */
+        User.update = function(payload) {
+            fetch("/api/user/update", make(payload)).then(promise => promise.json()).then(json => {
+                console.log(json);
+            });
+        }
+
+        /* Delete user from database
+           payload = {
+           id: 1,
+           token: "ABC123xyz" } */
+        User.delete = function(payload) {
+            fetch("/api/user/delete", make(payload)).then(promise => promise.json()).then(json => {
+                console.log(json);
+            });
+        }
+
+        /* Login and create user session (if credentials match)
+           payload = {
+           username: "username",
+           password: "password" } */
+        User.login = function(payload) {
+            fetch("/api/user/login", make(payload)).then(promise => promise.json()).then(json => {
+                console.log(json);
+            });
+        }
+
+        /* Confirm verification code (optional)
+           payload = {
+               email: "felix@gmail.com",
+               verification_code: "12345AbcXyz" } */
+        User.verify = function(payload) {
+            fetch("/api/user/verify", make(payload)).then(promise => promise.json()).then(json => {
+                console.log(json)
+            });
+        }
+
+        // Authenticate user (check if session exists and receive back auth id)
+        // token.id = "ABC123xyz"
+        // token.timestamp = 12334545670
+        // (token in session on server must match token.id from localStorage)
+        User.authenticate = function(payload) {
+            fetch("/api/user/authenticate", make(payload)).then(promise => promise.json()).then(json => {
+                console.log(json);
+            });
+        }
+
+        /* Post a tweet
+           payload = {
+           id: 1,
+           payload.message: "hello" } */
+        User.tweet = function(payload) {
+            fetch("/api/tweet/post", make(payload)).then(promise => promise.json()).then(json => {
+                console.log(json);
+            });
+        }
+
+        /* Like a tweet
+           payload = {id: 1,
+                      tweet_id: 100 } */
+        User.like = function(payload) {
+            fetch("/api/tweet/like", make(payload)).then(promise => promise.json()).then(json => {
+                console.log(json);
+            });
+        }
+
+        /* Comment on a tweet
+            payload = {id: 1,
+                       tweet_id: 100,
+                       message: "I'm right, #yourewrong"}; */
+        User.comment = function(payload) {
+            fetch("/api/tweet/comment", make(payload)).then(promise => promise.json()).then(json => {
+                console.log(json);
+            });
+        }
+
+        // Because this is <script type = "module", to make User object
+        // globally available so it can be used in HTML attribute events,
+        // we have to manually add it to window object
+        window.onload = () => {
+            window.User = User;
+        }
+
+        </script>
+    <style type = "text/css">
+        #path1 { position: absolute; display: block; }
+    </style>
+</head>
+
+<body>
+<div id = "body">
+    <div>
+        <b>API Tests</b><br/>
+        <input type = "text" id = "un" style = "width: 90px"/><input type = "text" id = "email_address"/>
+            <input id = "user_button" type = "button"
+                   onclick = "let payload = { 'email_address': window.email_address.value, 'username': window.un.value, 'password': 'password'}; User.create( payload )" value = "register user" /><br/>
+        <input type = "button" onclick = "User.update({id: 1, password_sha3: 'newpass123A'})" value = "update user properties" /><br/>
+        <input type = "button" onclick = "User.get({id:1})" value = "get user where user.id = 1" /><br/>
+        <input type = "button" onclick = "User.get({id:100000000})" value = "get user where user.id = 100000000" /><br/>
+        <input type = "button" onclick = "User.verify({user:'felix',verify_id:'12345'})" value = "verify user (same as click on verify link in email)" /><br/>
+        <input type = "button" onclick = "User.authenticate({token:'token_test_12345'})" value = "authenticate (check if token exists in session table)" /><br/>
+        <input type = "button" onclick = "User.login({username:'felix',password:'password123'})" value = "log in as user felix / password (check session)" /><br/>
+        <input type = "button" onclick = "User.tweet({user:'felix',message:'hello there, this is my tweet.'})" value = "tweet as authenticated user" /><br/>
+        <input type = "button" onclick = "User.like({id:{user:1,tweet:1}})" value = "like tweet id=1 by user id=1" /><br/>
+    </div>
+</div>
+<div id = "footer"></div>
+</body>
+</html>
