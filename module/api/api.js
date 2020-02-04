@@ -380,7 +380,7 @@ class API {
 
     constructor() {}
 
-    async exec(request, response) {
+    static exec(request, response) {
 
         console.log("API.exec(), parts = ", API.parts);
 
@@ -399,7 +399,7 @@ class API {
             });
 
             // Finish reading POST data chunks
-            request.on('end', () => { // POST data fully received
+            request.on('end', async() => { // POST data fully received
 
                 API.parts = request.parts;
 
