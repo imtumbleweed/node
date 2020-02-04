@@ -70,7 +70,7 @@ class database {
     }
 }
 
-// Requires payload.email_address = <email_address>
+/* //Requires payload.email_address = <email_address>
 function action_register_user(request, payload) {
     return new Promise((resolve, reject) => {
         if (!request || !request.headers || !payload)
@@ -98,7 +98,7 @@ function action_register_user(request, payload) {
                 }
             });
     }).catch((error) => { console.log(error) });
-}
+} */
 
 /**
  * 
