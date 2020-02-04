@@ -380,7 +380,7 @@ class API {
 
     constructor() {}
 
-    static exec(request, response) {
+    async exec(request, response) {
 
         console.log("API.exec(), parts = ", API.parts);
 
@@ -403,9 +403,10 @@ class API {
 
                 API.parts = request.parts;
 
-                if (identify("user", "register")) // Register (create) user
-                    Action.register_user(request, json(request.chunks))
-                    .then(content => respond(response, content));
+                if (identify("user", "register")) { // Register (create) user
+                    let content = await Action.register_user(request, json(request.chunks))
+                    respond(response, content);
+                }
 
                 if (identify("user", "login")) // Log in
                     Action.login(request, json(request.chunks))
