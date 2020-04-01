@@ -10,7 +10,7 @@ database.create();
 process.env.node_env = "localhost";
 
 // replace xx.xx.xx.xxx with your own remote IP address or localhost (127.0.0.1)
-const ip = 'xx.xx.xx.xxx';
+const ip = '23.239.21.207';
 const port = process.env.node_env === 'production' ? 80 : 3000;
 
 http.createServer(function(request, response) {
