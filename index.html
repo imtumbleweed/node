@@ -13,8 +13,9 @@
         // Create payload -- redundant everywhere, now in neat make() function
         let make = function(payload) {
             return { method: 'post',
-                     headers: { 'Accept': 'application/json' },
-                     body: JSON.stringify(payload) };
+                    headers: { 'Accept': 'application/json',
+                         'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload) };
         }
 
         /* Create user in database
